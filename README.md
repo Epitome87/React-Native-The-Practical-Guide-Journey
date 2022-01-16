@@ -90,3 +90,16 @@ For our custom components, we can't just provide them an `onPress` prop and have
 ### Modal Styling
 
 **NOTE** that a component such as a Button cannot utilize the `width` property for styling. So we first wrap the `<Button>` inside of a `<View>`
+
+## Section 3 - Debugging React Native Apps
+
+`Originally Started: 1/15/2022`
+
+- Ctrl + M on Windows inside the Android emulator to open up debug / performance options (disable when done, as it does slow PC down)
+  - This lets you click `Debug JS Remotely` to open a browser and allow you to `Ctrl + Shift + I` to open the Chrome (or etc) developer tools
+- Set breakpoints in your code by visiting the developer tools' _Sources_ tab, and then the _Users_ folder with your source conde in it
+
+  - Hover over code to see current values of variables / objects
+  - Step in and out of functions, etc
+
+- Can install React Native Developer Tools and view your app in a manner similar to React DevTools (component trees)

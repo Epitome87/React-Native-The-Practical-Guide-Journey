@@ -9,6 +9,8 @@ export default function App() {
 
   // Add current input as a new goal
   const handleAddGoal = (goal) => {
+    if (!goal) return;
+
     setGoals((currentGoals) => [
       ...currentGoals,
       { id: Math.random().toString(), value: goal },
