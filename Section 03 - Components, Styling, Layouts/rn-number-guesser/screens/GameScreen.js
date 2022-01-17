@@ -1,7 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  FlatList,
+} from 'react-native';
+import ButtonMain from '../components/ButtonMain';
 import Card from '../components/Card';
 import NumberContainer from '../components/NumberContainer';
+import { Ionicons } from '@expo/vector-icons';
+import BodyText from '../components/BodyText';
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -13,25 +24,33 @@ const generateRandomBetween = (min, max, exclude) => {
   } else return randomNum;
 };
 
-const GameScreen = ({ userChoice, onGameOver }) => {
-  const [currentGuess, setCurrentGuess] = useState(
-    generateRandomBetween(1, 100, userChoice)
+const renderListItem = (value, roundNum) => {
+  return (
+    <View key={value} style={styles.listItem}>
+      <BodyText>#{roundNum}</BodyText>
+      <BodyText>{value}</BodyText>
+    </View>
   );
-  const [rounds, setRounds] = useState(0);
+};
+
+const GameScreen = ({ userChoice, onGameOver }) => {
+  const initialGuess = generateRandomBetween(1, 100, userChoice);
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [pastGuesses, setpastGuesses] = useState([initialGuess]);
 
   const currentMin = useRef(1);
   const currentMax = useRef(100);
 
   useEffect(() => {
     if (currentGuess === userChoice) {
-      onGameOver(rounds);
+      onGameOver(pastGuesses.length);
     }
   }, [currentGuess, userChoice, onGameOver]);
 
   const handleNextGuess = (direction) => {
     if (
       (direction === 'lower' && currentGuess < userChoice) ||
-      (direction === 'greater' && currentGuess > userChoice)
+      (direction === 'higher' && currentGuess > userChoice)
     ) {
       Alert.alert("Don't lie!", 'You know that this is wrong...', [
         { text: 'Sorry!', style: 'cancel' },
@@ -43,23 +62,18 @@ const GameScreen = ({ userChoice, onGameOver }) => {
 
     if (direction === 'lower') {
       currentMax.current = currentGuess;
-      newGuess = generateRandomBetween(
-        currentMin.current,
-        currentMax.current,
-        currentGuess
-      );
-      setCurrentGuess(newGuess);
-    } else if (direction === 'greater') {
-      currentMin.current = currentGuess;
-      newGuess = generateRandomBetween(
-        currentMin.current,
-        currentMax.current,
-        currentGuess
-      );
+    } else if (direction === 'higher') {
+      currentMin.current = currentGuess + 1;
     }
 
-    setRounds((currentRounds) => currentRounds + 1);
+    newGuess = generateRandomBetween(
+      currentMin.current,
+      currentMax.current,
+      currentGuess
+    );
+
     setCurrentGuess(newGuess);
+    setpastGuesses((currentPastGuesses) => [newGuess, ...currentPastGuesses]);
   };
 
   return (
@@ -67,12 +81,20 @@ const GameScreen = ({ userChoice, onGameOver }) => {
       <Text>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <Button title='LOWER' onPress={handleNextGuess.bind(this, 'lower')} />
-        <Button
-          title='GREATER'
-          onPress={handleNextGuess.bind(this, 'greater')}
-        />
+        <ButtonMain onPress={handleNextGuess.bind(this, 'lower')}>
+          <Ionicons name='md-remove' size={24} color='white' />
+        </ButtonMain>
+        <ButtonMain onPress={handleNextGuess.bind(this, 'higher')}>
+          <Ionicons name='md-add' size={24} color='white' />
+        </ButtonMain>
       </Card>
+      <View style={styles.listContainer}>
+        <ScrollView contentContainerStyle={styles.list}>
+          {pastGuesses.map((guess, index) =>
+            renderListItem(guess, pastGuesses.length - index)
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -87,8 +109,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-    width: 300,
-    maxWidth: '80%',
+    width: 400,
+    maxWidth: '90%',
+  },
+  listContainer: {
+    flex: 1,
+    width: '60%',
+  },
+  list: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 15,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    width: '100%',
   },
 });
 
