@@ -103,3 +103,64 @@ For our custom components, we can't just provide them an `onPress` prop and have
   - Step in and out of functions, etc
 
 - Can install React Native Developer Tools and view your app in a manner similar to React DevTools (component trees)
+
+## Section 4 - Components, Styling, Layouts
+
+`Originally Started: 1/15/2022`
+
+We will learn about:
+
+- Components
+  - Built-in (View, Text, Image, ...)
+  - Custom Components
+- Styles & Layout
+  - Component styles (borders, colors, shadows, custom fonts, ...)
+  - Layout with Flexbox
+- Native API Modules
+  - Maps, Camera, User Location, etc
+
+We will be learning these concepts while developing a simple game where you pick a number, the computer guesses, and you tell the computer whether the number is higher or lower.
+
+### Shadows in iOS and Android
+
+- Defined differently than we would do in CSS, using properties such as:
+  - `shadowOffset` - Takes in an object with the width and height for the offset
+  - `shadowRadius` - Takes a number
+  - `shadowOpacity` - Takes a number from 0 to 1
+  - `elevation` - For Android, as the others are not available. Takes a number
+
+### Passing Style as a Prop
+
+It seems that, unlike React, building a wrapper-type component that takes in custom style from outside of it is done with:
+`style={[styles.ourBaseComponent, props.style]}`
+
+In React for the web, we would have used the spread syntax for styles and the props.style object to create one new object with both of their properties spread into it. React Native seems to require an array of objects, though!
+
+### Button Colors
+
+- In React Native, a Button component can receive a _color_ prop
+  - On Android, this is the color of the background of the button
+  - On iOS, this is the color of the button's font
+
+### Styling with Constants
+
+Just create an object of, for instance, colors, where each key is a color and each value is its hex value. Then import in the file you need that color, and call _colors.primary_, for example.
+
+### User Input
+
+In a TextInput component, iOS does not allow for closing the on-screen keyboard when you press outside of it. To implement this ourselves, we need to import a component such as _TouchableWithoutFeedback_ and wrap our entire component with it, giving it an _onPress_ event. In this _onPress_ event, we make use of an object we import from react-native called _Keyboard_. With this, we can call _Keyboard.dismiss()_ to remove the on-screen keyboard upon the outer-most _TouchableWithoutFeedback_ component's _onPress_ event being called.
+
+### Showing an Alert
+
+To show an Alert, we import _Alert_ from 'react-native' and then use it by calling:
+
+```js
+Alert.alert('Invalid number!', 'Number has to be a number between 1 and 99.', [
+  {
+    text: 'OK',
+    style: 'destructive',
+    onPress: handleReset,
+  },
+]);
+```
+
