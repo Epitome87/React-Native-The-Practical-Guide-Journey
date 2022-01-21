@@ -290,3 +290,35 @@ For ScrollView and FlatList, we have a _contentContainerStyle_ proper, used for 
   - Put this attribute as a style on the actual ScrollView itself
 
 ### `Section Completed: 1/17/2022`
+
+## Section 5 - Responsive & Adaptive User Interfaces and Apps
+
+In this module, we will learn:
+
+- How to detect the device dimensions & orientation
+- Adjusting layouts based on size & orientation
+- How to detect the device platform (iOS or Android)
+- Adjusting code / UI based on the platform
+
+## Section 6 - Navigation with React Navigation (The Meals App)
+
+### `Section Started: 1/20/2022`
+
+In this module, we will learn:
+
+- Navigation & multiple screens
+- Tabs, drawers, back & forth
+
+While exploring these concepts, we will be creating a meals app -- one where we can view, favorite, and filter recipes. It will include a header with a menu, tabs on the bottom (all meals / favorites). The main view will consist of food categories, which can be tapped to navigate to a new screen where recipes belonging to that category will be presented.
+
+### Navigation in Native vs Web
+
+In React web, we navigate based on the current URL. But in a mobile app, there is no URL -- so how do we handle navigation?
+
+- Using things such as Tabs or Stacks
+- But how do we accomplish this, on a technical level?
+- It's easy using a 3rd-party library: `react-navigation`
+
+### Navigation with StackNavigator
+
+Pages / Screens are basically managed on a _stack_ of pages. Whenever you go to a new screen, it will be pushed on top of the stack. When you press the back button, that screen is popped off, taking you back to the screen below it.

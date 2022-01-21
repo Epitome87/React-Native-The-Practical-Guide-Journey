@@ -15,6 +15,7 @@ import colors from '../constants/colors';
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
 import ButtonMain from '../components/ButtonMain';
+import { Dimensions } from 'react-native';
 
 const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState('');
@@ -121,8 +122,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   inputContainer: {
-    width: 300,
-    maxWidth: '80%',
+    width: '80%',
+    // maxWidth: '80%',
+    minWidth: 300,
+    maxWidth: '95%',
     alignItems: 'center',
   },
   input: {
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   button: {
-    width: 100,
+    width: Dimensions.get('window').width * 0.4,
   },
   summaryContainer: {
     marginTop: 100,
