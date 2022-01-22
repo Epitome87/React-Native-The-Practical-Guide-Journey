@@ -9,13 +9,14 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealsScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
 
-const MealsNavigator = createNativeStackNavigator({
-  Categories: CategoriesScreen,
-  CategoryMeals: {
-    screen: CategoryMealsScreen,
-  },
-  MealDetail: MealDetailScreen,
-});
+const MealsNavigator = createNativeStackNavigator();
+//   {
+//   Categories: CategoriesScreen,
+//   CategoryMeals: {
+//     screen: CategoryMealsScreen,
+//   },
+//   MealDetail: MealDetailScreen,
+// }
 
 export default MealsNavigator;
 // export default createAppContainer(MealsNavigator);

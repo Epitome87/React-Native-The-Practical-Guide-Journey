@@ -1,13 +1,13 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const FavoritesScreen = (props) => {
-    return (
-        <View style={styles.screen}>
-            <Text>Favorites Screen</Text>
-        </View>
-    )
-}
+  return (
+    <View style={styles.screen}>
+      <Text>Favorites Screen</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FavoritesScreen
+export default FavoritesScreen;

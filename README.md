@@ -322,3 +322,98 @@ In React web, we navigate based on the current URL. But in a mobile app, there i
 ### Navigation with StackNavigator
 
 Pages / Screens are basically managed on a _stack_ of pages. Whenever you go to a new screen, it will be pushed on top of the stack. When you press the back button, that screen is popped off, taking you back to the screen below it.
+
+We begin by installing: `npm install @react-navigation/native`
+
+We also need two dependencies used by most navigators: `expo install react-native-screens react-native-safe-area-context`
+These libraries form the building blocks and sdhared foundations for navigators. But each navigator in React Navigation lives in its own library. To use the native stack navigator, we need to install: `npm install @react-navigation/native-stack`
+
+We can now develop some basic navigation!
+
+```js
+// In App.js
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Define some screren, e.g HomeScreen
+function HomeScreen() {
+  return (
+    <View>
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Home' component={HomeScreen} />
+        <Stack.Screen name='Details' component={DetailsScreen} />
+        <Stack.Screen name='Contact' options={{ title: 'Contact Us' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+
+Note we create an object using `createNativeStackNavigator()` and inside our NavigationContainer we put `Stack.Navigator` component, inside of which we have `Stack.Screen` component(s). These Screen components receive the name we wish to call that route / screen, as well as a component that handles the rendering when that route is targetted. In an alternative form of the `Stack.Screen` component, we can pass it an `options` prop, where we can for instance give it a custom title that is different than the name we wish the route to be.
+
+### Passing Addition Props to Screens
+
+We can pass additional props to a screen in one of two ways:
+
+- Use React Context and wrap the navigator with a context provider to pass data to the screens (recommended)
+- Use a render callback for the screen instead of specifying a component prop:
+
+```js
+<Stack.Screen name='Home'>
+  {(props) => <HomeScreen {...props} extraData={someData} />}
+</Stack.Screen>
+```
+
+### Navigating Between Screens
+
+Every screen component in the native stack navigator will automatically receive a prop called navigation. We use this to navigate between different screens:
+
+```js
+<Button
+  title='Go to Details'
+  onPress={() => props.navigation.navigate('routeName')}
+/>;
+// Or:
+props.navigation.navigate({ routeName: 'routeName' });
+```
+
+We can also call `props.navigation.replace("routeName");`, where we are no longer pushing a new screen onto the stack, but rather replacing it with the new route. Consequently, no back button is provided for us, and no navigation animation plays during the transition to the new route.
+
+### Navigate to a Route Multiple Times
+
+If we, for example, click a Button that navigates us to a route that we're already on, nothing happens. This makes sense; we are already on this route, so why should we be taken off it. But there may be some instances where we _want_ to add another of the screen we are currently on. To do so, we change `navigate` to `push`. This allows us to express the intent to add another route regardless of the existing navigation history.
+
+```js
+<Button
+  title='Go to Details... again'
+  onPress={() => navigation.push('Details')}
+/>
+```
+
+Now each time we call `push` we add a new route to the navigation stack. When you call `navigate` it first tries to find an existing route with that name, and only pushes a new route if there isn't yet one on the stack.
+
+### Manually Navigating Back
+
+To programmatically go back, rather than relying on the user pressing the back button on their phone (Android) or the back arrow in the header (Android, iOS), we can simply call:
+
+```js
+navigation.goBack();
+```
+
+With a `StackNavigator` type of navigation, we can also go back with:
+
+```js
+navigation.pop();
+```
+
+If we want to go back multiple screens, we can either call `navigation.navigate` and specify the route we wish to return to, or call `navigation.popToTop()`, which goes back to the first screen in the stack.

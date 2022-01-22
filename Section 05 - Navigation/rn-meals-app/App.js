@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import MealsNavigator from './navigation/MealsNavigator';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  CategoriesScreen,
+  CategoryMealsScreen,
+  MealDetailScreen,
+} from './screens';
+import colors from './constants/colors';
+import { enableScreens } from 'react-native-screens';
+
+enableScreens();
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -11,6 +21,19 @@ const fetchFonts = () => {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
 };
+
+// Options that will be shared by all screens within the Stack we are creating
+const navigatorConfig = {
+  initialRouteName: 'Categories',
+  screenOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'web' ? colors.primaryColor : '',
+    },
+    headerTintColor: Platform.OS === 'web' ? 'white' : colors.primaryColor,
+  },
+};
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isFontLoaded, setIsFontLoaded] = useState(false);
@@ -25,7 +48,22 @@ export default function App() {
     );
   }
 
-  return <MealsNavigator />;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator {...navigatorConfig}>
+        <Stack.Screen
+          style={{ padding: 56 }}
+          name='Categories'
+          component={CategoriesScreen}
+          options={{
+            headerTitle: 'Meal Categories', // This gets priority over setting the title via navigation.setOptions in the actual component
+          }}
+        />
+        <Stack.Screen name='CategoryMeals' component={CategoryMealsScreen} />
+        <Stack.Screen name='MealDetail' component={MealDetailScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
