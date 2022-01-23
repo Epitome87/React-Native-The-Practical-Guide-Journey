@@ -417,3 +417,35 @@ navigation.pop();
 ```
 
 If we want to go back multiple screens, we can either call `navigation.navigate` and specify the route we wish to return to, or call `navigation.popToTop()`, which goes back to the first screen in the stack.
+
+### Adding Header Buttons
+
+Learned how to add a button to the navigation header.
+Further, learned how to make use of the `HeaderButtons` component from a library, installed with: `npm i react-navigation-header-buttons' and imported with:
+
+```js
+import { HeaderButtons } from 'react-navigation-header-buttons';
+```
+
+Now, to define our own button inside this `HeaderButtons` component:
+
+```js
+// Reminder that we receive navigation as a prop since it is a child in our Navigator
+navigation.setOptions({
+  title: selectedMeal.title,
+  // If we were using just a regular button
+  // headerRight: () => (
+  //   <Button onPress={() => alert('This is a button!')} title='FAV' />
+  // ),
+  headerRight: () => (
+    // HeaderButton is a cutsom button component we make, which uses a star icon for its appearance
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        title='Favorite'
+        iconName='ios-star'
+        onPress={() => alert('Marked as favorite!')}
+      />
+    </HeaderButtons>
+  ),
+});
+```
