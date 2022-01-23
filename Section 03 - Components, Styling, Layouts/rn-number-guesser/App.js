@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
 import { StartGameScreen, GameScreen, GameOverScreen } from './screens/';
-import * as Font from 'expo-font';
+import * as Font from 'expo-font'; // Outdated way?
+import { useFonts } from 'expo-font'; // New approach?
 import AppLoading from 'expo-app-loading';
 
 const fetchFonts = () => {
@@ -16,11 +17,16 @@ export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [guessRounds, setGuessRounds] = useState(0);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isLoaded] = useFonts({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+  });
 
-  if (!isDataLoaded) {
+  // if (!isDataLoaded) {
+  if (!isLoaded) {
     return (
       <AppLoading
-        startAsync={fetchFonts}
+        // startAsync={fetchFonts}
         onFinish={() => setIsDataLoaded(true)}
         onError={console.warn}
       />
