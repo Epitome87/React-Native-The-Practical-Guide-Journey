@@ -41,7 +41,6 @@ const CategoryMealsScreen = ({ navigation, route }) => {
 
   return (
     <View style={[styles.screen]}>
-      <Text>{selectedCategory.title}</Text>
       <FlatList
         data={mealsForSelectedCategory}
         keyExtractor={(item, index) => item.id}
