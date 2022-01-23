@@ -5,18 +5,13 @@ import {
   //   createAppContainer,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealsScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
 
-const MealsNavigator = createNativeStackNavigator();
-//   {
-//   Categories: CategoriesScreen,
-//   CategoryMeals: {
-//     screen: CategoryMealsScreen,
-//   },
-//   MealDetail: MealDetailScreen,
-// }
+const MealsStackNavigator = createNativeStackNavigator();
+const MealsFavoriteTabNavigator = createBottomTabNavigator();
 
-export default MealsNavigator;
+export { MealsStackNavigator, MealsFavoriteTabNavigator };
 // export default createAppContainer(MealsNavigator);
