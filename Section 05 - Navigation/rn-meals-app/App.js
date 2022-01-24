@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,6 +8,7 @@ import AppLoading from 'expo-app-loading';
 
 import { enableScreens } from 'react-native-screens';
 import MealsTabNavigator from './navigation/MealsTabNavigator';
+import MainDrawerNavigator from './navigation/MainDrawerNavigator';
 
 enableScreens();
 
@@ -37,7 +39,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MealsTabNavigator />
+      {/* <MealsTabNavigator /> */}
+      <MainDrawerNavigator />
     </NavigationContainer>
   );
 }

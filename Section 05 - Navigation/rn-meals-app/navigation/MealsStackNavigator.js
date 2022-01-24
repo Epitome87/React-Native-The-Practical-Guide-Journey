@@ -7,6 +7,8 @@ import {
   MealDetailScreen,
 } from '../screens';
 import colors from '../constants/colors';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { HeaderButton } from '../components/HeaderButton';
 
 // Options that will be shared by all screens within the Stack we are creating
 const navigatorConfig = {
@@ -19,7 +21,7 @@ const navigatorConfig = {
   },
 };
 
-const MealsStackNavigator = () => {
+const MealsStackNavigator = ({ navigation }) => {
   const Stack = createNativeStackNavigator();
 
   return (
@@ -29,6 +31,18 @@ const MealsStackNavigator = () => {
         component={CategoriesScreen}
         options={{
           headerTitle: 'Meal Categories', // This gets priority over setting the title via navigation.setOptions in the actual component
+          // TODO: uncomment this
+          //   headerLeft: () => (
+          //     <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          //       <Item
+          //         title='Menu'
+          //         iconName='ios-menu'
+          //         onPress={() => {
+          //           navigation.toggleDrawer();
+          //         }}
+          //       />
+          //     </HeaderButtons>
+          //   ),
         }}
       />
       <Stack.Screen name='CategoryMeals' component={CategoryMealsScreen} />

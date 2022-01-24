@@ -4,13 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'; // For Android-like appearance
 import { Ionicons } from '@expo/vector-icons';
 import MealsStackNavigator from './MealsStackNavigator';
-import { FavoritesScreen } from '../screens';
 import colors from '../constants/colors';
 import FavoritesStackNavigator from './FavoritesStackNavigator';
 
 // Options that will be shared by all screens within the Stack we are creating
 const stackConfig = {
-  initialRouteName: 'Favorites',
+  initialRouteName: 'All',
   screenOptions: {
     headerStyle: {
       // TODO: Remove? We hide header on mobile platforms anyways
@@ -18,7 +17,7 @@ const stackConfig = {
     },
     headerShown: false,
     headerTintColor: Platform.OS === 'android' ? 'white' : colors.primaryColor,
-    tabBarActiveTintColor: 'pink', //colors.accentColor,
+    tabBarActiveTintColor: colors.accentColor,
   },
 };
 
