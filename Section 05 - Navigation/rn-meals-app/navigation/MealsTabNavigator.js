@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import MealsStackNavigator from './MealsStackNavigator';
 import { FavoritesScreen } from '../screens';
 import colors from '../constants/colors';
+import FavoritesStackNavigator from './FavoritesStackNavigator';
 
 // Options that will be shared by all screens within the Stack we are creating
 const stackConfig = {
@@ -17,9 +18,7 @@ const stackConfig = {
     },
     headerShown: false,
     headerTintColor: Platform.OS === 'android' ? 'white' : colors.primaryColor,
-    tabBarActiveTintColor: colors.accentColor,
-
-    //tabBarBadge: '1', // true shows a dot, can also render a text/num. Maybe use this somehow?
+    tabBarActiveTintColor: 'pink', //colors.accentColor,
   },
 };
 
@@ -27,10 +26,6 @@ const stackConfig = {
 if (Platform.OS === 'android') {
   stackConfig.activeColor = '#f0edf6';
   stackConfig.inactiveColor = '#6e6e6e';
-  stackConfig.barStyle = {
-    backgroundColor: '#694fad',
-    paddingBottom: 8,
-  };
   stackConfig.labeled = true; // Remove labels. Probably undo this.
   stackConfig.shifting = true; // Only active tab gets a label
 }
@@ -49,7 +44,7 @@ const MealsTabNavigator = () => {
         name='All'
         component={MealsStackNavigator}
         options={{
-          title: 'All Meals',
+          //   title: 'All Meals',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='ios-restaurant' color={color} size={20} />
           ),
@@ -58,9 +53,9 @@ const MealsTabNavigator = () => {
       />
       <Tab.Screen
         name='Favorites'
-        component={FavoritesScreen}
+        component={FavoritesStackNavigator}
         options={{
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='ios-star' color={color} size={20} />
           ),

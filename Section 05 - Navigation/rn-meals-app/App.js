@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Font from 'expo-font'; // Outdated font usage?
 import { useFonts } from 'expo-font'; // New way to use fonts?
 import AppLoading from 'expo-app-loading';
-import {
-  // MealsStackNavigator,
-  MealsFavoriteTabNavigator,
-} from './navigation/MealsNavigator';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  CategoriesScreen,
-  CategoryMealsScreen,
-  MealDetailScreen,
-  FavoritesScreen,
-} from './screens';
-import colors from './constants/colors';
+
 import { enableScreens } from 'react-native-screens';
-import MealsStackNavigator from './navigation/MealsStackNavigator';
 import MealsTabNavigator from './navigation/MealsTabNavigator';
 
 enableScreens();

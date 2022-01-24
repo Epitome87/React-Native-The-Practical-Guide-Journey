@@ -1,15 +1,13 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  CategoriesScreen,
-  CategoryMealsScreen,
-  MealDetailScreen,
-} from '../screens';
 import colors from '../constants/colors';
+import { FavoritesScreen, MealDetailScreen } from '../screens';
+
+const Stack = createNativeStackNavigator();
 
 // Options that will be shared by all screens within the Stack we are creating
-const navigatorConfig = {
+const favoritesStackConfig = {
   initialRouteName: 'Categories',
   screenOptions: {
     headerStyle: {
@@ -19,22 +17,17 @@ const navigatorConfig = {
   },
 };
 
-const MealsStackNavigator = () => {
-  const Stack = createNativeStackNavigator();
-
+const FavoritesStackNavigator = () => {
   return (
-    <Stack.Navigator {...navigatorConfig}>
+    <Stack.Navigator {...favoritesStackConfig}>
       <Stack.Screen
-        name='Categories'
-        component={CategoriesScreen}
-        options={{
-          headerTitle: 'Meal Categories', // This gets priority over setting the title via navigation.setOptions in the actual component
-        }}
+        name='CategoryMeals'
+        component={FavoritesScreen}
+        options={{ headerTitle: 'Your Favorites' }}
       />
-      <Stack.Screen name='CategoryMeals' component={CategoryMealsScreen} />
       <Stack.Screen name='MealDetail' component={MealDetailScreen} />
     </Stack.Navigator>
   );
 };
 
-export default MealsStackNavigator;
+export default FavoritesStackNavigator;
