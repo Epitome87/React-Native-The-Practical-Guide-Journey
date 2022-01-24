@@ -18,7 +18,7 @@ const MealDetailScreen = ({ navigation, route }) => {
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
-            title='Favorite'
+            title='Favorite Poop'
             iconName='ios-star'
             onPress={() => alert('Marked as favorite!')}
           />

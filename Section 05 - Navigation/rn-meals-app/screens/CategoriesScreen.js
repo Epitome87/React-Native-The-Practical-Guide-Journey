@@ -4,11 +4,14 @@ import { CATEGORIES } from '../data/dummy-data';
 import CategoryTile from '../components/CategoryTile';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
+import { DrawerActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const CategoriesScreen = (props) => {
   // The navigation passed automatically from the native stack navigator
-  const { navigation } = props;
-  console.log('NAV?', navigation);
+  // const { navigation } = props;
+  const navigation = useNavigation();
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -17,7 +20,8 @@ const CategoriesScreen = (props) => {
             title='Menu'
             iconName='ios-menu'
             onPress={() => {
-              props.navigation.toggleDrawer();
+              // props.navigation.toggleDrawer();
+              navigation.dispatch(DrawerActions.toggleDrawer());
             }}
           />
         </HeaderButtons>

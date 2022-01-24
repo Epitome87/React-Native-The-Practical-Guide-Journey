@@ -18,6 +18,9 @@ const navigatorConfig = {
       backgroundColor: Platform.OS === 'android' ? colors.primaryColor : '',
     },
     headerTintColor: Platform.OS === 'android' ? 'white' : colors.primaryColor,
+    headerTitleStyle: {
+      fontFamily: 'open-sans-bold',
+    },
   },
 };
 

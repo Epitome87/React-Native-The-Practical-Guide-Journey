@@ -18,6 +18,9 @@ const stackConfig = {
     headerShown: false,
     headerTintColor: Platform.OS === 'android' ? 'white' : colors.primaryColor,
     tabBarActiveTintColor: colors.accentColor,
+    headerTitleStyle: {
+      fontFamily: 'open-sans-bold',
+    },
   },
 };
 
