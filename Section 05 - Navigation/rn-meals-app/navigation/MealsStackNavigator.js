@@ -13,9 +13,9 @@ const navigatorConfig = {
   initialRouteName: 'Categories',
   screenOptions: {
     headerStyle: {
-      backgroundColor: Platform.OS === 'web' ? colors.primaryColor : '',
+      backgroundColor: Platform.OS === 'android' ? colors.primaryColor : '',
     },
-    headerTintColor: Platform.OS === 'web' ? 'white' : colors.primaryColor,
+    headerTintColor: Platform.OS === 'android' ? 'white' : colors.primaryColor,
   },
 };
 
@@ -25,7 +25,7 @@ const MealsStackNavigator = () => {
   return (
     <Stack.Navigator {...navigatorConfig}>
       <Stack.Screen
-        style={{ padding: 56 }}
+        style={{ padding: 56, backgroundColor: 'black' }}
         name='Categories'
         component={CategoriesScreen}
         options={{
