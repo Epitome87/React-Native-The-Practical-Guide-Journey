@@ -9,8 +9,9 @@ import { useNavigation } from '@react-navigation/native';
 
 const CategoriesScreen = (props) => {
   // The navigation passed automatically from the native stack navigator
-  // const { navigation } = props;
-  const navigation = useNavigation();
+  const { navigation } = props;
+  // const navigation = useNavigation();
+  
 
   useEffect(() => {
     navigation.setOptions({

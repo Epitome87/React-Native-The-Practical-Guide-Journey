@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'; // For Android-like appearance
 import { Ionicons } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ const stackConfig = {
     headerTitleStyle: {
       fontFamily: 'open-sans-bold',
     },
+    tabBarLabelStyle: { fontFamily: 'open-sans-bold' },
   },
 };
 
@@ -51,6 +52,12 @@ const MealsTabNavigator = () => {
             <Ionicons name='ios-restaurant' color={color} size={20} />
           ),
           tabBarColor: colors.primaryColor,
+          tabBarLabel:
+            Platform.OS === 'android' ? (
+              <Text style={{ fontFamily: 'open-sans-bold' }}>Meals</Text>
+            ) : (
+              'Meals'
+            ),
         }}
       />
       <Tab.Screen
@@ -62,6 +69,12 @@ const MealsTabNavigator = () => {
             <Ionicons name='ios-star' color={color} size={20} />
           ),
           tabBarColor: colors.accentColor,
+          tabBarLabel:
+            Platform.OS === 'android' ? (
+              <Text style={{ fontFamily: 'open-sans-bold' }}>Favorites</Text>
+            ) : (
+              'Favorites'
+            ),
         }}
       />
     </Tab.Navigator>
