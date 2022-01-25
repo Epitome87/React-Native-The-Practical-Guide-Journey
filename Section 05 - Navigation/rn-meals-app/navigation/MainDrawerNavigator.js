@@ -2,12 +2,11 @@ import React from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
 import { Platform } from 'react-native';
 import MealsTabNavigator from './MealsTabNavigator';
-import { FiltersScreen } from '../screens';
+import FiltersStackNavigator from './FiltersStackNavigator';
 import colors from '../constants/colors';
 
 // Options that will be shared by all screens within the Stack we are creating
@@ -50,8 +49,6 @@ function CustomDrawerContent(props) {
 const Drawer = createDrawerNavigator();
 
 const MainDrawerNavigator = () => {
-  // TODO: Wrap in a Stack? We need a Header. Then we pass the Stack directly instead of FiltersScreen, which the Stack will have as a component
-
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -63,7 +60,7 @@ const MainDrawerNavigator = () => {
       />
       <Drawer.Screen
         name='Filters'
-        component={FiltersScreen}
+        component={FiltersStackNavigator}
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>

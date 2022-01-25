@@ -1,28 +1,23 @@
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import { CATEGORIES } from '../data/dummy-data';
-import CategoryTile from '../components/CategoryTile';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import CategoryTile from '../components/CategoryTile';
 import HeaderButton from '../components/HeaderButton';
-import { DrawerActions } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import { CATEGORIES } from '../data/dummy-data';
 
 const CategoriesScreen = (props) => {
   // The navigation passed automatically from the native stack navigator
   const { navigation } = props;
-  // const navigation = useNavigation();
-  
-
   useEffect(() => {
     navigation.setOptions({
+      // ! For some reason, icons render wrong (text, not image) if we do this in the StackNavigator instead of the component itself?
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title='Menu'
             iconName='ios-menu'
             onPress={() => {
-              // props.navigation.toggleDrawer();
-              navigation.dispatch(DrawerActions.toggleDrawer());
+              navigation.toggleDrawer();
             }}
           />
         </HeaderButtons>
