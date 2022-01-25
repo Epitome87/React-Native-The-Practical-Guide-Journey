@@ -1,17 +1,54 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import DefaultText from '../components/DefaultText';
 import FilterSwitch from '../components/FilterSwitch';
+import HeaderButton from '../components/HeaderButton';
 
-const FiltersScreen = ({ navigation }) => {
-  // TODO: Uncomment this if I decide I need to wrap FiltersScree inside a StackNavigator
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     title: "Filter Meals",
-  //     headerStyle: { backgroundColor: selectedCategory.color },
-  //     headerTintColor: 'white',
-  //   });
-  // }, []);
+const FiltersScreen = ({ navigation, route }) => {
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Filter Meals',
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title='Menu'
+            iconName='ios-menu'
+            onPress={() => {
+              navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title='Save'
+            iconName='ios-save'
+            onPress={() => {
+              alert('Saved!');
+              route.params.save();
+            }}
+          />
+        </HeaderButtons>
+      ),
+    });
+  }, []);
+
+  const saveFilters = useCallback(() => {
+    const appliedFilters = {
+      glutenFree: isGlutenFree,
+      lactoseFree: isLactoseFree,
+      vegan: isVegan,
+      vegetarian: isVegetarian,
+    };
+
+    console.log(appliedFilters);
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+
+  useEffect(() => {
+    navigation.setParams({ save: saveFilters });
+  }, [saveFilters]);
 
   const [isGlutenFree, setIsGlutenFree] = useState(false);
   const [isLactoseFree, setIsLactoseFree] = useState(false);
