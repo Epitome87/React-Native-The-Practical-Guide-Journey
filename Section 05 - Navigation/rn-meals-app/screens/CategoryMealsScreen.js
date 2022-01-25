@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { CATEGORIES } from '../data/dummy-data';
-import { MEALS } from '../data/dummy-data';
 import MealList from '../components/MealList';
 
 const CategoryMealsScreen = ({ navigation, route }) => {
@@ -10,7 +10,8 @@ const CategoryMealsScreen = ({ navigation, route }) => {
     (category) => category.id === categoryId
   );
 
-  const mealsForSelectedCategory = MEALS.filter((meal) =>
+  const availableMeals = useSelector((state) => state.meals.meals);
+  const mealsForSelectedCategory = availableMeals.filter((meal) =>
     meal.categoryIds.includes(categoryId)
   );
 

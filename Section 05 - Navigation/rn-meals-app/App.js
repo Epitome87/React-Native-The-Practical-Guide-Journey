@@ -5,12 +5,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as Font from 'expo-font'; // Outdated font usage?
 import { useFonts } from 'expo-font'; // New way to use fonts?
 import AppLoading from 'expo-app-loading';
-
 import { enableScreens } from 'react-native-screens';
-import MealsTabNavigator from './navigation/MealsTabNavigator';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import mealsReducer from './store/reducers/meals';
 import MainDrawerNavigator from './navigation/MainDrawerNavigator';
 
 enableScreens();
+
+const rootReducer = combineReducers({
+  meals: mealsReducer,
+});
+
+const store = createStore(rootReducer);
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -38,10 +45,11 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      {/* <MealsTabNavigator /> */}
-      <MainDrawerNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainDrawerNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

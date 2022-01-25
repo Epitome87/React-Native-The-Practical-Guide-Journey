@@ -1,11 +1,11 @@
 import React, { useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { FlatList, Image, Platform, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import DefaultText from '../components/DefaultText';
 import HeaderButton from '../components/HeaderButton';
 import colors from '../constants/colors';
-import { MEALS } from '../data/dummy-data';
 
 const lowColor = 'green';
 const mediumColor = 'orange';
@@ -46,7 +46,8 @@ const complexityColor = (complexity) => {
 const MealDetailScreen = ({ navigation, route }) => {
   const { mealId } = route.params;
 
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const availableMeals = useSelector((state) => state.meals.meals);
+  const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
   useLayoutEffect(() => {
     navigation.setOptions({
