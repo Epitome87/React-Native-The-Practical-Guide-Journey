@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import DefaultText from '../components/DefaultText';
+import FilterSwitch from '../components/FilterSwitch';
 
 const FiltersScreen = ({ navigation }) => {
   // TODO: Uncomment this if I decide I need to wrap FiltersScree inside a StackNavigator
@@ -11,9 +13,44 @@ const FiltersScreen = ({ navigation }) => {
   //   });
   // }, []);
 
+  const [isGlutenFree, setIsGlutenFree] = useState(false);
+  const [isLactoseFree, setIsLactoseFree] = useState(false);
+  const [isVegan, setIsVegan] = useState(false);
+  const [isVegetarian, setIsVegetarian] = useState(false);
+
   return (
     <View style={styles.screen}>
-      <Text>Filter Screen</Text>
+      <DefaultText bold style={styles.title}>
+        Available Filters / Restrictions
+      </DefaultText>
+      <FilterSwitch
+        label='Gluten-free'
+        value={isGlutenFree}
+        onValueChange={(newValue) => {
+          setIsGlutenFree(newValue);
+        }}
+      />
+      <FilterSwitch
+        label='Lactose-free'
+        value={isLactoseFree}
+        onValueChange={(newValue) => {
+          setIsLactoseFree(newValue);
+        }}
+      />
+      <FilterSwitch
+        label='Vegan'
+        value={isVegan}
+        onValueChange={(newValue) => {
+          setIsVegan(newValue);
+        }}
+      />
+      <FilterSwitch
+        label='Vegetarian'
+        value={isVegetarian}
+        onValueChange={(newValue) => {
+          setIsVegetarian(newValue);
+        }}
+      />
     </View>
   );
 };
@@ -21,8 +58,12 @@ const FiltersScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    fontSize: 22,
+    margin: 20,
+    textAlign: 'center',
   },
 });
 
