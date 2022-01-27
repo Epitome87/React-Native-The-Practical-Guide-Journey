@@ -10,7 +10,8 @@ const CategoryMealsScreen = ({ navigation, route }) => {
     (category) => category.id === categoryId
   );
 
-  const availableMeals = useSelector((state) => state.meals.meals);
+  // Select all meals that fit the current filter criteria
+  const availableMeals = useSelector((state) => state.meals.filteredMeals);
   const mealsForSelectedCategory = availableMeals.filter((meal) =>
     meal.categoryIds.includes(categoryId)
   );
