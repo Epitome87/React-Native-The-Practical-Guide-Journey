@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useDispatch } from 'react-redux';
@@ -7,7 +7,7 @@ import FilterSwitch from '../components/FilterSwitch';
 import HeaderButton from '../components/HeaderButton';
 import { setFilters } from '../store/actions/meals';
 
-const FiltersScreen = ({ navigation, route }) => {
+const FiltersScreen = ({ navigation }) => {
   const [isGlutenFree, setIsGlutenFree] = useState(false);
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
@@ -31,17 +31,14 @@ const FiltersScreen = ({ navigation, route }) => {
       ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
-          <Item
-            title='Save'
-            iconName='ios-save'
-            onPress={route.params.save}
-          />
+          <Item title='Save' iconName='ios-save' onPress={saveFilters} />
         </HeaderButtons>
       ),
     });
-  }, []);
+  }, [navigation, isGlutenFree, isVegan, isVegetarian, isLactoseFree]); // For the call to saveFilters in the Header's onPress to have the
+  // latest copies of our gluttenFree / etc state, we have to mark those as dependencies
 
-  const saveFilters = useCallback(() => {
+  const saveFilters = () => {
     const appliedFilters = {
       glutenFree: isGlutenFree,
       lactoseFree: isLactoseFree,
@@ -49,13 +46,8 @@ const FiltersScreen = ({ navigation, route }) => {
       vegetarian: isVegetarian,
     };
 
-    console.log(appliedFilters);
     dispatch(setFilters(appliedFilters));
-  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch]);
-
-  useEffect(() => {
-    navigation.setParams({ save: saveFilters });
-  }, [saveFilters]);
+  };
 
   return (
     <View style={styles.screen}>
