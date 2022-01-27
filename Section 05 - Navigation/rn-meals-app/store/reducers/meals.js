@@ -2,47 +2,59 @@ import { MEALS } from '../../data/dummy-data';
 import { SET_FILTERS, TOGGLE_FAVORITE } from '../actions/meals';
 
 const initialState = {
-  meals: MEALS,
+  meals: MEALS, // Our hard-coded list of dummy meals
   filteredMeals: MEALS, // Filter set to include All Meals at start
-  favoriteMeals: [],    // No favorites to start
+  favoriteMeals: [], // No favorites to start
 };
 
 const mealsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_FAVORITE: 
-      const existingIndex = state.favoriteMeals.findIndex(meal => meal.id === action.mealId);
-      // Meal isn't already a favorite...
+    case TOGGLE_FAVORITE:
+      const existingIndex = state.favoriteMeals.findIndex(
+        (meal) => meal.id === action.mealId
+      );
+      // if Meal isn't already a favorite...
       if (existingIndex < 0) {
-        // ...so make it a favorite!
-        const newFavMeal = state.meals.find(meal => meal.id === action.mealId);
-        return { ...state, favoriteMeals: [...state.favoriteMeals, newFavMeal]}
+        // ...make it a favorite!
+        const newFavMeal = state.meals.find(
+          (meal) => meal.id === action.mealId
+        );
+        return {
+          ...state,
+          favoriteMeals: [...state.favoriteMeals, newFavMeal],
+        };
       } else {
-        // Remove this meal from our Favorites
-        return { ...state, favoriteMeals: state.favoriteMeals.filter(meal => meal.id !== action.mealId) }
+        // If it's already a favorite, remove this meal from Favorites
+        return {
+          ...state,
+          favoriteMeals: state.favoriteMeals.filter(
+            (meal) => meal.id !== action.mealId
+          ),
+        };
       }
     case SET_FILTERS:
       const appliedFilters = action.filters;
-			// Check all meals if there are any matches with the filters...
-			const filteredMeals = state.meals.filter((meal) => {
-				// If meal should be glutenFree but it is not, return false.
-				if (appliedFilters.glutenFree && !meal.isGlutenFree) {
-					return false;
-				}
-				if (appliedFilters.lactoseFree && !meal.isLactoseFree) {
-					return false;
-				}
-				if (appliedFilters.vegan && !meal.isVegan) {
-					return false;
-				}
-				if (appliedFilters.vegetarian && !meal.isVegetarian) {
-					return false;
-				}
-				// If we pass all the checks, then we have a meal...
-				return true;
-			});
-			// Return a new state.
-			return {...state, filteredMeals: filteredMeals}
-    default: 
+      
+      // Check each meal...
+      const filteredMeals = state.meals.filter((meal) => {
+        // For each filter, if it is set to True yet our meal has it as false, return false
+        if (appliedFilters.glutenFree && !meal.isGlutenFree) {
+          return false;
+        }
+        if (appliedFilters.lactoseFree && !meal.isLactoseFree) {
+          return false;
+        }
+        if (appliedFilters.vegan && !meal.isVegan) {
+          return false;
+        }
+        if (appliedFilters.vegetarian && !meal.isVegetarian) {
+          return false;
+        }
+        // If we passed all filter checks, we found a Meal that meets our critia!
+        return true;
+      });
+      return { ...state, filteredMeals: filteredMeals };
+    default:
       return state;
   }
 };
