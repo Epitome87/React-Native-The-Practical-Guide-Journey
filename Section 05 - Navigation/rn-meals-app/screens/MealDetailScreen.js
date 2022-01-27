@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FlatList, Image, Platform, StyleSheet, View } from 'react-native';
+import { Image, Platform, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import DefaultText from '../components/DefaultText';
@@ -45,22 +45,27 @@ const complexityColor = (complexity) => {
 };
 
 const MealDetailScreen = ({ navigation, route }) => {
+  // We get this in MealList, which calls navigate to this screen and passes mealId as a route param
   const { mealId } = route.params;
 
+  // Retrieve all meals, then find the one user is currently viewing details for
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
-  const isFavoriteMeal = useSelector((state) => state.meals.favoriteMeals.some(meal => meal.id === mealId));
+  // Is this meal part of the user's Favorite list?
+  const isFavoriteMeal = useSelector((state) =>
+    state.meals.favoriteMeals.some((meal) => meal.id === mealId)
+  );
+
   const dispatch = useDispatch();
 
+  // Memo-ize this function to prevent infinite loops
   const handleToggleFavorite = useCallback(() => {
     dispatch(toggleFavorite(mealId));
   }, [dispatch, mealId]);
 
-  // TODO: Find out if this is best method, namely if we need this variable
-  // as well as the isFavoriteMeal set via useSelector. Seems redundant?
-  const { isFavorite } = route.params;
-
+  // We want this to run whenever isFavoriteMeal changes, so it updates the icon
+  // To be thorough, we add navigation and selectedMeal as deps, though they shouldn't change
   useEffect(() => {
     navigation.setOptions({
       title: selectedMeal.title,
@@ -68,41 +73,33 @@ const MealDetailScreen = ({ navigation, route }) => {
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title='Favorite'
-            iconName={route.params.isFavorite ? 'ios-star' : 'ios-star-outline'}
+            iconName={isFavoriteMeal ? 'ios-star' : 'ios-star-outline'}
             onPress={handleToggleFavorite}
           />
         </HeaderButtons>
       ),
     });
-  }, [navigation, isFavorite]);
-
-    // For changing the icon used to represent if meal is a Favorite
-    useEffect(() => {
-      navigation.setParams({ isFavorite: isFavoriteMeal });
-    }, [isFavoriteMeal]);
-  
+  }, [navigation, selectedMeal, isFavoriteMeal]);
 
   // TODO (maybe): Add image of the ingredient to the left of the ingredient name
-  const renderedIngredient = (itemData) => {
+  const renderedIngredientList = selectedMeal.ingredients.map((ingredient) => {
     return (
-      <View style={styles.listItem}>
-        <DefaultText>{itemData.item}</DefaultText>
+      <View key={ingredient} style={styles.listItem}>
+        <DefaultText>{ingredient}</DefaultText>
       </View>
     );
-  };
+  });
 
-  // TODO: Can remove this and use the above, as its rendering logic is the same
-  // Do this if we decide the two renders don't have their own unique styling
-  const renderedStep = (itemData) => {
+  const renderedStepList = selectedMeal.steps.map((step) => {
     return (
-      <View style={[styles.listItem]}>
-        <DefaultText>{itemData.item}</DefaultText>
+      <View key={step} style={styles.listItem}>
+        <DefaultText>{step}</DefaultText>
       </View>
     );
-  };
+  });
 
   return (
-    <ScrollView>
+    <ScrollView nestedScrollEnabled={true}>
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
       <View style={[styles.details]}>
         <DefaultText
@@ -137,23 +134,12 @@ const MealDetailScreen = ({ navigation, route }) => {
         <DefaultText style={styles.title} bold>
           Ingredients
         </DefaultText>
-        <FlatList
-          scrollEnabled={false}
-          keyExtractor={(item, index) => item.ingredient}
-          data={selectedMeal.ingredients}
-          renderItem={renderedIngredient}
-          style={styles.ingredients}
-        />
+        {renderedIngredientList}
+
         <DefaultText style={styles.title} bold>
           Steps
         </DefaultText>
-        <FlatList
-          scrollEnabled={false}
-          keyExtractor={(item, index) => item.step}
-          data={selectedMeal.steps}
-          renderItem={renderedStep}
-          style={styles.steps}
-        />
+        {renderedStepList}
       </View>
     </ScrollView>
   );
