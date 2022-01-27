@@ -11,6 +11,10 @@ import { Provider } from 'react-redux';
 import mealsReducer from './store/reducers/meals';
 import MainDrawerNavigator from './navigation/MainDrawerNavigator';
 
+// TODO: Find better way to solve warning for fontFamily being overwritten
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Overwriting fontFamily style attribute preprocessor']);
+
 enableScreens();
 
 const rootReducer = combineReducers({
