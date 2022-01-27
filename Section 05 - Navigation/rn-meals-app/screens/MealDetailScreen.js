@@ -1,11 +1,12 @@
-import React, { useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { FlatList, Image, Platform, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import DefaultText from '../components/DefaultText';
 import HeaderButton from '../components/HeaderButton';
 import colors from '../constants/colors';
+import { toggleFavorite } from '../store/actions/meals';
 
 const lowColor = 'green';
 const mediumColor = 'orange';
@@ -49,23 +50,37 @@ const MealDetailScreen = ({ navigation, route }) => {
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
-  useLayoutEffect(() => {
+  const isFavoriteMeal = useSelector((state) => state.meals.favoriteMeals.some(meal => meal.id === mealId));
+  const dispatch = useDispatch();
+
+  const handleToggleFavorite = useCallback(() => {
+    dispatch(toggleFavorite(mealId));
+  }, [dispatch, mealId]);
+
+  // TODO: Find out if this is best method, namely if we need this variable
+  // as well as the isFavoriteMeal set via useSelector. Seems redundant?
+  const { isFavorite } = route.params;
+
+  useEffect(() => {
     navigation.setOptions({
       title: selectedMeal.title,
-      // headerRight: () => (
-      //   <Button onPress={() => alert('This is a button!')} title='FAV' />
-      // ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title='Favorite'
-            iconName='ios-star'
-            onPress={() => alert('Marked as favorite!')}
+            iconName={route.params.isFavorite ? 'ios-star' : 'ios-star-outline'}
+            onPress={handleToggleFavorite}
           />
         </HeaderButtons>
       ),
     });
-  }, [navigation]);
+  }, [navigation, isFavorite]);
+
+    // For changing the icon used to represent if meal is a Favorite
+    useEffect(() => {
+      navigation.setParams({ isFavorite: isFavoriteMeal });
+    }, [isFavoriteMeal]);
+  
 
   // TODO (maybe): Add image of the ingredient to the left of the ingredient name
   const renderedIngredient = (itemData) => {
