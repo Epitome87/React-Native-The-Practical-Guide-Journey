@@ -1,47 +1,28 @@
 import { MEALS } from '../../data/dummy-data';
-import Meal from '../../models/meal';
+import { SET_FILTERS, TOGGLE_FAVORITE } from '../actions/meals';
 
 const initialState = {
   meals: MEALS,
   filteredMeals: MEALS, // Filter set to include All Meals at start
-  favoriteMeals: [
-    new Meal(
-      'm6',
-      ['c6', 'c10'],
-      'Delicious Orange Mousse',
-      'affordable',
-      'hard',
-      'https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg',
-      240,
-      [
-        '4 Sheets of Gelatine',
-        '150ml Orange Juice',
-        '80g Sugar',
-        '300g Yoghurt',
-        '200g Cream',
-        'Orange Peel',
-      ],
-      [
-        'Dissolve gelatine in pot',
-        'Add orange juice and sugar',
-        'Take pot off the stove',
-        'Add 2 tablespoons of yoghurt',
-        'Stir gelatin under remaining yoghurt',
-        'Cool everything down in the refrigerator',
-        'Whip the cream and lift it under die orange mass',
-        'Cool down again for at least 4 hours',
-        'Serve with orange peel',
-      ],
-      true,
-      false,
-      true,
-      false
-    ),
-  ], // No favorites to start
+  favoriteMeals: [],    // No favorites to start
 };
 
 const mealsReducer = (state = initialState, action) => {
-  return state;
+  switch (action.type) {
+    case TOGGLE_FAVORITE: 
+      const existingIndex = state.favoriteMeals.findIndex(meal => meal.id === action.mealId);
+      // Meal isn't already a favorite...
+      if (existingIndex < 0) {
+        // ...so make it a favorite!
+        const newFavMeal = state.meals.find(meal => meal.id === action.mealId);
+        return { ...state, favoriteMeals: [...state.favoriteMeals, newFavMeal]}
+      } else {
+        // Remove this meal from our Favorites
+        return { ...state, favoriteMeals: state.favoriteMeals.filter(meal => meal.id !== action.mealId) }
+      }
+    default: 
+      return state;
+  }
 };
 
 export default mealsReducer;
