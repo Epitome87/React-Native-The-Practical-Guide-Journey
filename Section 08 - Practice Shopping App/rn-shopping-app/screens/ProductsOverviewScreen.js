@@ -2,14 +2,20 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import DefaultText from '../components/DefaultText';
+import ProductItem from '../components/shop/ProductItem';
 
 const ProductsOverviewScreen = () => {
   const products = useSelector((state) => state.products.availableProducts);
+
   const renderListItem = (item) => {
     return (
-      <View>
-        <DefaultText>{item.item.title}</DefaultText>
-      </View>
+      <ProductItem
+        title={item.item.title}
+        price={item.item.price}
+        image={item.item.imageUrl}
+        onViewDetail={() => {}}
+        onAddToCart={() => {}}
+      />
     );
   };
 
