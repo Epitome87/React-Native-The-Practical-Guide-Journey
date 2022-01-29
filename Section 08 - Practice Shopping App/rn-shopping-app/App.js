@@ -1,12 +1,12 @@
 import 'react-native-gesture-handler'; // Must be at top, for Navigation Drawers
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import productsReducer from './store/reducers/products';
 import { ProductsStack } from './navigation/ShopNavigator';
-import { NavigationContainer } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -21,11 +21,7 @@ export default function App() {
   });
 
   if (!isLoaded) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <AppLoading />;
   }
 
   return (
