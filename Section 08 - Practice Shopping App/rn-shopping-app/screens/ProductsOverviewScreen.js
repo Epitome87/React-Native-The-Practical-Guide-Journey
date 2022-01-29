@@ -1,11 +1,32 @@
+import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import DefaultText from '../components/DefaultText';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useDispatch, useSelector } from 'react-redux';
+import * as cartActions from '../store/actions/cart';
 import ProductItem from '../components/shop/ProductItem';
+import HeaderButton from '../components/UI/HeaderButton';
 
 const ProductsOverviewScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const products = useSelector((state) => state.products.availableProducts);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item
+              title='Cart'
+              iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              onPress={() => {
+                navigation.navigate('Cart');
+              }}
+            />
+          </HeaderButtons>
+        );
+      },
+    });
+  }, []);
 
   const renderListItem = (item) => {
     return (
@@ -19,7 +40,9 @@ const ProductsOverviewScreen = ({ navigation }) => {
             title: item.item.title,
           });
         }}
-        onAddToCart={() => {}}
+        onAddToCart={() => {
+          dispatch(cartActions.addItem(item.item));
+        }}
       />
     );
   };
