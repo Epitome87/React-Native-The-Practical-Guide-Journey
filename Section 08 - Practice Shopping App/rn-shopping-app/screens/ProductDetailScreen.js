@@ -1,10 +1,13 @@
-import { Button, Image, ScrollView, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
-import DefaultText from '../components/DefaultText';
-import { useSelector } from 'react-redux';
+import { Button, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import * as cartActions from '../store/actions/cart';
 import colors from '../constants/colors';
+import DefaultText from '../components/DefaultText';
 
 const ProductDetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     navigation.setOptions({
       title: route.params.title,
@@ -25,7 +28,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
           title='Add to Cart'
           bold
           color={colors.primary}
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(cartActions.addItem(selectedProduct));
+          }}
         />
       </View>
       <DefaultText style={styles.price}>
