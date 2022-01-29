@@ -1,15 +1,17 @@
 import 'react-native-gesture-handler'; // Must be at top, for Navigation Drawers
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import productsReducer from './store/reducers/products';
+import cartReducer from './store/reducers/cart';
 import { ProductsStack } from './navigation/ShopNavigator';
 
 const rootReducer = combineReducers({
   products: productsReducer,
+  cart: cartReducer,
 });
 
 const store = createStore(rootReducer);
