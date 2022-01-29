@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
 import ProductsOverviewScreen from '../screens/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import CartScreen from '../screens/CartScreen';
 import colors from '../constants/colors';
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +24,7 @@ const ProductsStack = () => {
   return (
     <Stack.Navigator
       initialRouteName='Products Overview'
-      screenOptions={{ defaultScreenOptions }}
+      screenOptions={defaultScreenOptions}
     >
       <Stack.Screen
         name='Products Overview'
@@ -37,6 +38,13 @@ const ProductsStack = () => {
         component={ProductDetailScreen}
         options={{
           title: 'Product Details',
+        }}
+      />
+      <Stack.Screen
+        name='Cart'
+        component={CartScreen}
+        options={{
+          title: 'Your Cart',
         }}
       />
     </Stack.Navigator>
