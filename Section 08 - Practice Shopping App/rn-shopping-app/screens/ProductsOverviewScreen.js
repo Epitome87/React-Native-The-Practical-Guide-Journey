@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import DefaultText from '../components/DefaultText';
 import ProductItem from '../components/shop/ProductItem';
 
-const ProductsOverviewScreen = () => {
+const ProductsOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
 
   const renderListItem = (item) => {
@@ -13,7 +13,12 @@ const ProductsOverviewScreen = () => {
         title={item.item.title}
         price={item.item.price}
         image={item.item.imageUrl}
-        onViewDetail={() => {}}
+        onViewDetail={() => {
+          navigation.navigate('Product Details', {
+            productId: item.item.id,
+            title: item.item.title,
+          });
+        }}
         onAddToCart={() => {}}
       />
     );
