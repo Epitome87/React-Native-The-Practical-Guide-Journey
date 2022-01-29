@@ -35,10 +35,34 @@ const cartReducer = (state = initialState, action) => {
         total: state.total + price,
       };
     case REMOVE_FROM_CART:
-      // If the item already exists, decrement its quantity
+      const currentQuantity = state.items[action.productId].quantity;
+      const selectedCartItem = state.items[action.productId];
+      let updatedCartItems = { ...state.items };
 
-      // Otherwise, remove the item from the items array
-      return state;
+      // If we only have 1 quantity of the cart, remove it entirely
+      if (currentQuantity === 1) {
+        delete updatedCartItems[action.productId];
+      } else {
+        // Otherwise, just reduce the item's quantity by 1
+        const updatedCartItem = new CartItem(
+          selectedCartItem.quantity - 1,
+          selectedCartItem.price,
+          selectedCartItem.title,
+          selectedCartItem.total - selectedCartItem.price
+        );
+
+        updatedCartItems = {
+          ...state.items,
+          [action.productId]: updatedCartItem,
+        };
+      }
+      
+      return {
+        ...state.items,
+        items: updatedCartItems,
+        total: state.total - selectedCartItem.price,
+      };
+
     default:
       return state;
   }
