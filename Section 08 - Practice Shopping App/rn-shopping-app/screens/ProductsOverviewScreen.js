@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, Platform, StyleSheet, View } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../store/actions/cart';
@@ -12,6 +12,19 @@ const ProductsOverviewScreen = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => {
+        return (
+          <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item
+              title='Menu'
+              iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+              onPress={() => {
+                navigation.toggleDrawer();
+              }}
+            />
+          </HeaderButtons>
+        );
+      },
       headerRight: () => {
         return (
           <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -26,7 +39,7 @@ const ProductsOverviewScreen = ({ navigation }) => {
         );
       },
     });
-  }, []);
+  }, [navigation]);
 
   const renderListItem = (item) => {
     return (
