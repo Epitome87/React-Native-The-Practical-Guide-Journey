@@ -2,10 +2,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
 import ProductsOverviewScreen from '../screens/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import OrdersScreen from '../screens/OrdersScreen';
 import CartScreen from '../screens/CartScreen';
 import colors from '../constants/colors';
-
-const Stack = createNativeStackNavigator();
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Ionicons } from '@expo/vector-icons';
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -20,35 +21,100 @@ const defaultScreenOptions = {
   headerTintColor: Platform.OS === 'android' ? 'white' : colors.primary,
 };
 
-const ProductsStack = () => {
+const ProductsStack = createNativeStackNavigator();
+
+const ProductsStackNavigator = () => {
   return (
-    <Stack.Navigator
+    <ProductsStack.Navigator
       initialRouteName='Products Overview'
       screenOptions={defaultScreenOptions}
     >
-      <Stack.Screen
+      <ProductsStack.Screen
         name='Products Overview'
         component={ProductsOverviewScreen}
         options={{
           title: 'All Products',
         }}
       />
-      <Stack.Screen
+      <ProductsStack.Screen
         name='Product Details'
         component={ProductDetailScreen}
         options={{
           title: 'Product Details',
         }}
       />
-      <Stack.Screen
+      <ProductsStack.Screen
         name='Cart'
         component={CartScreen}
         options={{
           title: 'Your Cart',
         }}
       />
-    </Stack.Navigator>
+    </ProductsStack.Navigator>
   );
 };
 
-export { ProductsStack };
+const OrdersStack = createNativeStackNavigator();
+
+const OrdersStackNavigator = () => {
+  return (
+    <OrdersStack.Navigator
+      initialRouteName='Orders'
+      screenOptions={defaultScreenOptions}
+    >
+      <OrdersStack.Screen
+        name='Orders'
+        component={OrdersScreen}
+        options={{
+          title: 'Your Orders',
+        }}
+      />
+    </OrdersStack.Navigator>
+  );
+};
+
+const ShopDrawer = createDrawerNavigator();
+
+const ShopDrawerNavigator = () => {
+  return (
+    <ShopDrawer.Navigator
+      initialRoute='Products'
+      screenOptions={{
+        ...defaultScreenOptions,
+        headerShown: false,
+        drawerActiveTintColor: colors.primary,
+      }}
+    >
+      <ShopDrawer.Screen
+        name='Products'
+        component={ProductsStackNavigator}
+        options={{
+          title: 'Products Stack',
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+              size={23}
+              color={drawerConfig.color}
+            />
+          ),
+        }}
+      />
+      <ShopDrawer.Screen
+        name='Orders'
+        component={OrdersStackNavigator}
+        options={{
+          title: 'Orders Stack',
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              size={23}
+              color={drawerConfig.color}
+            />
+          ),
+        }}
+      />
+    </ShopDrawer.Navigator>
+  );
+};
+
+export { ProductsStackNavigator, OrdersStackNavigator, ShopDrawerNavigator };
