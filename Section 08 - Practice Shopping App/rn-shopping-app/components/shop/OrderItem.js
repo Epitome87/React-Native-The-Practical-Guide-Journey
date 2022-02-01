@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import DefaultText from '../DefaultText';
 import CartItem from './CartItem';
 import colors from '../../constants/colors';
 
-const OrderItem = ({ total, date }) => {
+const OrderItem = ({ items, total, date }) => {
+  const [isShowingDetails, setIsShowingDetails] = useState(false);
+
+  const renderedCartItems = (
+    <View style={styles.detailItems}>
+      {items.map((cartItem) => (
+        <CartItem
+          key={cartItem.productId}
+          title={cartItem.title}
+          quantity={cartItem.quantity}
+          amount={cartItem.total}
+        />
+      ))}
+    </View>
+  );
+
   return (
     <View style={styles.orderItem}>
       <View style={styles.summary}>
@@ -13,7 +28,12 @@ const OrderItem = ({ total, date }) => {
         </DefaultText>
         <DefaultText style={styles.date}>{date}</DefaultText>
       </View>
-      <Button title='Show Details' color={colors.primary} />
+      <Button
+        title={isShowingDetails ? 'Hide Details' : 'Show Details'}
+        color={colors.primary}
+        onPress={() => setIsShowingDetails((prevState) => !prevState)}
+      />
+      {isShowingDetails ? renderedCartItems : null}
     </View>
   );
 };
@@ -45,6 +65,9 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 16,
     color: '#888',
+  },
+  detailItems: {
+    width: '100%',
   },
 });
 

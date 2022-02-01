@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { FlatList, Platform, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import DefaultText from '../components/DefaultText';
 import HeaderButton from '../components/UI/HeaderButton';
 import OrderItem from '../components/shop/OrderItem';
 
@@ -30,6 +29,7 @@ const OrdersScreen = ({ navigation }) => {
   const renderedItem = (itemData) => {
     return (
       <OrderItem
+        items={itemData.item.items}
         total={itemData.item.total}
         date={itemData.item.readableDate}
       />
