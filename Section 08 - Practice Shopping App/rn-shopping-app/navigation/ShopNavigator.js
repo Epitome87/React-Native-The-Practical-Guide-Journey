@@ -4,6 +4,7 @@ import ProductsOverviewScreen from '../screens/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import CartScreen from '../screens/CartScreen';
+import UserProductsScreen from '../screens/UserProductsScreen';
 import colors from '../constants/colors';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
@@ -73,6 +74,32 @@ const OrdersStackNavigator = () => {
   );
 };
 
+const AdminStack = createNativeStackNavigator();
+
+const AdminStackNavigator = () => {
+  return (
+    <AdminStack.Navigator
+      initialRouteName='Admin'
+      screenOptions={defaultScreenOptions}
+    >
+      <AdminStack.Screen
+        name='Admin'
+        component={UserProductsScreen}
+        options={{
+          title: 'Your Products',
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+              size={23}
+              color={drawerConfig.color}
+            />
+          ),
+        }}
+      />
+    </AdminStack.Navigator>
+  );
+};
+
 const ShopDrawer = createDrawerNavigator();
 
 const ShopDrawerNavigator = () => {
@@ -92,7 +119,7 @@ const ShopDrawerNavigator = () => {
           title: 'Products Stack',
           drawerIcon: (drawerConfig) => (
             <Ionicons
-              name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
               size={23}
               color={drawerConfig.color}
             />
@@ -104,6 +131,20 @@ const ShopDrawerNavigator = () => {
         component={OrdersStackNavigator}
         options={{
           title: 'Orders Stack',
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              size={23}
+              color={drawerConfig.color}
+            />
+          ),
+        }}
+      />
+      <ShopDrawer.Screen
+        name='Admin Stack'
+        component={AdminStackNavigator}
+        options={{
+          title: 'Admin Stack',
           drawerIcon: (drawerConfig) => (
             <Ionicons
               name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
