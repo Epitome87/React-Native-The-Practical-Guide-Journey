@@ -31,6 +31,7 @@ const CartScreen = () => {
   const renderedCartItem = (itemData) => {
     return (
       <CartItem
+        deletable={true}
         quantity={itemData.item.quantity}
         title={itemData.item.title}
         amount={itemData.item.total}

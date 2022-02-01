@@ -3,7 +3,7 @@ import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DefaultText from '../DefaultText';
 
-const CartItem = ({ quantity, title, amount, onRemove }) => {
+const CartItem = ({ quantity, title, amount, onRemove, deletable }) => {
   return (
     <View style={styles.cartItem}>
       <View style={styles.itemData}>
@@ -16,13 +16,15 @@ const CartItem = ({ quantity, title, amount, onRemove }) => {
         <DefaultText style={styles.amount} bold>
           ${amount.toFixed(2)}
         </DefaultText>
-        <TouchableOpacity style={styles.deleteButton} onPress={onRemove}>
-          <Ionicons
-            name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
-            size={23}
-            color='red'
-          />
-        </TouchableOpacity>
+        {deletable && (
+          <TouchableOpacity style={styles.deleteButton} onPress={onRemove}>
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+              size={23}
+              color='red'
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
