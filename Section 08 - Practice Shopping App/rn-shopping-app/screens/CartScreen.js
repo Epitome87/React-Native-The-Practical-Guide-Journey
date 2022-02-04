@@ -48,7 +48,8 @@ const CartScreen = () => {
         <DefaultText style={styles.summaryText} bold>
           Total:{' '}
           <DefaultText style={styles.amount}>
-            ${cartTotal.toFixed(2)}
+            {/* Round in order to prevent negative sign in front of 0 total */}$
+            {Math.round(cartTotal.toFixed(2) * 100) / 100}
           </DefaultText>
         </DefaultText>
         <Button
