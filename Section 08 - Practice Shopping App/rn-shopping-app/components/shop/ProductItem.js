@@ -1,5 +1,4 @@
 import {
-  Button,
   Image,
   Platform,
   StyleSheet,
@@ -9,16 +8,22 @@ import {
 } from 'react-native';
 import React from 'react';
 import DefaultText from '../DefaultText';
-import colors from '../../constants/colors';
 
-const ProductItem = ({ title, price, image, onViewDetail, onAddToCart }) => {
+const ProductItem = ({
+  title,
+  price,
+  image,
+  onSelect,
+  children,
+  onAddToCart,
+}) => {
   let TouchableComp = TouchableOpacity;
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     TouchableComp = TouchableNativeFeedback;
   }
 
   return (
-    <TouchableComp onPress={onViewDetail} useForeground>
+    <TouchableComp onPress={onSelect} useForeground>
       <View style={styles.product}>
         <Image style={styles.image} source={{ uri: image }} />
         <View style={styles.details}>
@@ -28,18 +33,7 @@ const ProductItem = ({ title, price, image, onViewDetail, onAddToCart }) => {
           <DefaultText style={styles.price}>${price.toFixed(2)}</DefaultText>
         </View>
 
-        <View style={styles.buttonsContainer}>
-          <Button
-            color={colors.primary}
-            title='View Details'
-            onPress={onViewDetail}
-          />
-          <Button
-            color={colors.primary}
-            title='To Cart'
-            onPress={onAddToCart}
-          />
-        </View>
+        <View style={styles.buttonsContainer}>{children}</View>
       </View>
     </TouchableComp>
   );
@@ -65,13 +59,13 @@ const styles = StyleSheet.create({
   details: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: '15%',
+    height: '17%',
     padding: 10,
   },
   title: {
     fontSize: 18,
     marginVertical: 2,
-    height: '100%', // This seems necessary to avoid price cutting it off for some odd reason
+    // height: '100%', // This seems necessary to avoid price cutting it off for some odd reason
   },
   price: {
     fontSize: 14,
@@ -81,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '25%',
+    height: '23%',
     paddingHorizontal: 25,
   },
 });
