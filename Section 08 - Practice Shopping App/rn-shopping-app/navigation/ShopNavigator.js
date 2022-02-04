@@ -5,6 +5,7 @@ import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import CartScreen from '../screens/CartScreen';
 import UserProductsScreen from '../screens/UserProductsScreen';
+import EditProductScreen from '../screens/EditProductScreen';
 import colors from '../constants/colors';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
@@ -96,6 +97,20 @@ const AdminStackNavigator = () => {
           ),
         }}
       />
+      <AdminStack.Screen
+        name='EditProduct'
+        component={EditProductScreen}
+        options={{
+          title: 'Your Products',
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+              size={23}
+              color={drawerConfig.color}
+            />
+          ),
+        }}
+      />
     </AdminStack.Navigator>
   );
 };
@@ -133,7 +148,7 @@ const ShopDrawerNavigator = () => {
           title: 'Orders Stack',
           drawerIcon: (drawerConfig) => (
             <Ionicons
-              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
               size={23}
               color={drawerConfig.color}
             />
@@ -147,7 +162,7 @@ const ShopDrawerNavigator = () => {
           title: 'Admin Stack',
           drawerIcon: (drawerConfig) => (
             <Ionicons
-              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
               size={23}
               color={drawerConfig.color}
             />
