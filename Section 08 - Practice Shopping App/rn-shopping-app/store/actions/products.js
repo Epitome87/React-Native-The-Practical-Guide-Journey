@@ -5,5 +5,5 @@ export const createProduct = (productId) => {
   return { type: CREATE_PRODUCT, productId: productId };
 };
 export const deleteProduct = (productId) => {
-  return { type: CREATE_PRODUCT, productId: productId };
+  return { type: DELETE_PRODUCT, productId: productId };
 };
