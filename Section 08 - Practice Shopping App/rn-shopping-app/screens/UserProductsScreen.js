@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
-import { FlatList, Platform, StyleSheet } from 'react-native';
+import { Button, FlatList, Platform, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useDispatch } from 'react-redux';
+import * as productActions from '../store/actions/products';
 import HeaderButton from '../components/UI/HeaderButton';
 import ProductItem from '../components/shop/ProductItem';
+import colors from '../constants/colors';
 
 const UserProductsScreen = ({ navigation }) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+  const dispatch = useDispatch();
+
+  const editProductHandler = (id) => {
+    navigation.navigate('EditProduct', { productId: id });
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -23,6 +31,19 @@ const UserProductsScreen = ({ navigation }) => {
           </HeaderButtons>
         );
       },
+      headerRight: () => {
+        return (
+          <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item
+              title='Add'
+              iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+              onPress={() => {
+                navigation.navigate('EditProduct');
+              }}
+            />
+          </HeaderButtons>
+        );
+      },
     });
   }, [navigation]);
 
@@ -33,9 +54,25 @@ const UserProductsScreen = ({ navigation }) => {
         title={title}
         price={price}
         image={imageUrl}
-        onViewDetail={() => {}}
-        onAddToCart={() => {}}
-      />
+        onSelect={() => {
+          editProductHandler(itemData.item.id);
+        }}
+      >
+        <Button
+          color={colors.primary}
+          title='Edit'
+          onPress={() => {
+            editProductHandler(itemData.item.id);
+          }}
+        />
+        <Button
+          color={colors.primary}
+          title='Delete'
+          onPress={() => {
+            dispatch(productActions.deleteProduct(itemData.item.id));
+          }}
+        />
+      </ProductItem>
     );
   };
 
